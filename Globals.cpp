@@ -24,5 +24,11 @@ char rxMessage[LORAMESSAGELENGTH];
 
 uint8_t key[16] = {AES256_KEY};
 
+bool NEXTCapaMeasure = true;
+bool NEXTCapaSend = false;
+bool STOPRelais = false;
+bool NEXTTempMeasure = true;
+bool NEXTTempSend = false;
+
 char LoraCmultiBuffer[LORACMULTIBUFFERR_LENGTH];
 Cmulti2Buffer loraCmulti(LoraCmultiBuffer,LORACMULTIBUFFERR_LENGTH,Node);

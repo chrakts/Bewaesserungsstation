@@ -18,6 +18,7 @@
 #include "myConstants.h"
 
 #include "Serial.h"
+#include "timer.h"
 #include "External.h"
 #include "../Secrets/secrets.h"
 #include "Communication.h"
@@ -28,6 +29,7 @@
 #include "LoRa.h"
 #include "Cmulti2Buffer.h"
 #include "capaMeasure.h"
+#include "adcMessung.h"
 
 void setup();
 void processLoraInfo();

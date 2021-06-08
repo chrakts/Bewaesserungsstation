@@ -1,10 +1,9 @@
 #include "Bewaesserungsstation.h"
 #include "BewaesserungsstationCommands.h"
 
-
 class LoRaClass;
 
-uint32_t counter = 0;
+uint16_t counter = 0;
 
 void setup()
 {
@@ -27,7 +26,7 @@ void setup()
 		led = led<<1;
 	}
 	PORTA_OUT = 0xFF;
-	//init_mytimer();
+	init_mytimer();
 
 	PMIC_CTRL = PMIC_LOLVLEX_bm | PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm;
 	sei();
@@ -44,16 +43,10 @@ void setup()
     }
   }
 
-  RTC.PERL = 3;
-  RTC.PERH = 0;
-  CLK.RTCCTRL = CLK_RTCSRC_ULP_gc | CLK_RTCEN_bm; // 1kHz ULP
-  RTC.CTRL = RTC_PRESCALER_DIV1024_gc;
-  RTC.INTCTRL = RTC_OVFINTLVL_LO_gc;
-
   loraCmulti.clearChecksum();
   LoRa.onReceive(onReceive);
   LoRa_rxMode();
-
+  initTemperatureMessung();
 }
 
 int main()
@@ -66,25 +59,50 @@ int main()
 
   while(1)
   {
-    LED_GRUEN_ON;
-    result = capa.makeMeasure();
-    LED_GRUEN_OFF;
-    meanResult += result;
-    counter++;
-    if(counter >=10)
+
+
+    if( NEXTTempMeasure==true )
     {
-      LED_BLAU_ON;
+      LED_ROT_ON;
+      NEXTTempMeasure = false;
+      startAdcMeasure();
+    }
+    if( NEXTCapaMeasure==true )
+    {
+      LED_GRUEN_ON;
+      NEXTCapaMeasure = false;
+      result = capa.makeMeasure();
+      LED_GRUEN_OFF;
+      meanResult += result;
+      counter++;
+    }
+    if( NEXTTempSend==true )
+    {
+      LED_GELB_ON;
+      NEXTTempSend = false;
       loraCmulti.clearChecksum();
-      loraCmulti.sendStandardDouble("BR",'F','A','i',(double)meanResult/counter);
+      loraCmulti.sendStandardDouble("BR",'T','A','i',calcTemperatur());
       toSend = &(loraCmulti.get()[1]);
       toSend[strlen(toSend)-1]=0;
       LoRa_sendMessage(toSend);
-      counter = 0;
-      meanResult = 0;
-      LED_BLAU_OFF;
+      LED_GELB_OFF;
     }
 
-    if(rxIsReady==true)
+    if( NEXTCapaSend==true )
+    {
+      NEXTCapaSend = false;
+        LED_BLAU_ON;
+        loraCmulti.clearChecksum();
+        loraCmulti.sendStandardDouble("BR",'F','A','i',(double)meanResult/counter);
+        toSend = &(loraCmulti.get()[1]);
+        toSend[strlen(toSend)-1]=0;
+        LoRa_sendMessage(toSend);
+        counter = 0;
+        meanResult = 0;
+        LED_BLAU_OFF;
+    }
+
+    if( rxIsReady==true )
     {
       LED_GELB_ON;
       rxIsReady=false;
@@ -92,7 +110,6 @@ int main()
       processLoraInfo();
       LED_GELB_OFF;
     }
-    _delay_ms(1000);
   }
 }
 
@@ -135,10 +152,5 @@ void onReceive(int packetSize)
 
 void onTxDone() {
   txIsReady = true;
-}
-
-ISR ( RTC_OVF_vect )
-{
-
 }
 

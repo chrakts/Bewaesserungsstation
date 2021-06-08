@@ -39,6 +39,11 @@ extern uint8_t key[];
 extern char LoraCmultiBuffer[];
 extern Cmulti2Buffer loraCmulti;
 
+extern bool NEXTCapaMeasure;
+extern bool NEXTCapaSend;
+extern bool STOPRelais;
+extern bool NEXTTempMeasure;
+extern bool NEXTTempSend;
 #endif // EXTERNAL_H_INCLUDED
 
 
