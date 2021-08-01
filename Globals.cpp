@@ -29,6 +29,7 @@ bool NEXTCapaSend = false;
 bool STOPRelais = false;
 bool NEXTTempMeasure = true;
 bool NEXTTempSend = false;
+bool validTemperature = false;
 
 char LoraCmultiBuffer[LORACMULTIBUFFERR_LENGTH];
 Cmulti2Buffer loraCmulti(LoraCmultiBuffer,LORACMULTIBUFFERR_LENGTH,Node);

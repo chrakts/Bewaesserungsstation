@@ -30,7 +30,7 @@
 					<Add option="-DSENDER_BUILT" />
 					<Add directory="/home/chrak/Downloads/avr8-gnu-toolchain-linux_x86_64/avr/lib/avrxmega2" />
 					<Add directory="/home/chrak/Downloads/avr8-gnu-toolchain-linux_x86_64/avr/include" />
-					<Add directory="../Bewaesserungsstation" />
+					<Add directory="/home/chrak/Daten/Software/repositories/Bewaesserungsstation" />
 					<Add directory="../communication" />
 					<Add directory="./" />
 					<Add directory="/home/chrak/Daten/Software/repositories/LoRa-for-ATxMega/src" />

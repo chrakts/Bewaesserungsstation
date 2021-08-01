@@ -97,6 +97,7 @@ uint16_t result;
       result += tempList[i];
     temperatureWert = (uint16_t)(result >> 4);
     listPointer=0;
+    validTemperature = true;
     NEXTTempSend = true;
   }
   LED_ROT_OFF;

@@ -17,6 +17,7 @@
 
 #include "myConstants.h"
 
+#include "uartHardware.h"
 #include "Serial.h"
 #include "timer.h"
 #include "External.h"
@@ -30,6 +31,7 @@
 #include "Cmulti2Buffer.h"
 #include "capaMeasure.h"
 #include "adcMessung.h"
+
 
 void setup();
 void processLoraInfo();

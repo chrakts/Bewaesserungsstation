@@ -44,6 +44,7 @@ extern bool NEXTCapaSend;
 extern bool STOPRelais;
 extern bool NEXTTempMeasure;
 extern bool NEXTTempSend;
+extern bool validTemperature;
 #endif // EXTERNAL_H_INCLUDED
 
 

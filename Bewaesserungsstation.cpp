@@ -55,7 +55,8 @@ int main()
   char *toSend;
   counter = 0;
   setup();
-  capaMeasure capa(&PORTB,3,2);
+  //capaMeasure capa(&PORTB,0,3);
+  capaMeasure capa(&PORTB,2,3);
 
   while(1)
   {
@@ -80,11 +81,14 @@ int main()
     {
       LED_GELB_ON;
       NEXTTempSend = false;
-      loraCmulti.clearChecksum();
-      loraCmulti.sendStandardDouble("BR",'T','A','i',calcTemperatur());
-      toSend = &(loraCmulti.get()[1]);
-      toSend[strlen(toSend)-1]=0;
-      LoRa_sendMessage(toSend);
+      if( validTemperature )
+      {
+        loraCmulti.clearChecksum();
+        loraCmulti.sendStandardDouble("BR",'T','A','i',calcTemperatur());
+        toSend = &(loraCmulti.get()[1]);
+        toSend[strlen(toSend)-1]=0;
+        LoRa_sendMessage(toSend);
+      }
       LED_GELB_OFF;
     }
 
@@ -92,13 +96,16 @@ int main()
     {
       NEXTCapaSend = false;
         LED_BLAU_ON;
-        loraCmulti.clearChecksum();
-        loraCmulti.sendStandardDouble("BR",'F','A','i',(double)meanResult/counter);
-        toSend = &(loraCmulti.get()[1]);
-        toSend[strlen(toSend)-1]=0;
-        LoRa_sendMessage(toSend);
-        counter = 0;
-        meanResult = 0;
+        if( counter>0 )
+        {
+          loraCmulti.clearChecksum();
+          loraCmulti.sendStandardDouble("BR",'F','A','i',(double)meanResult/counter);
+          toSend = &(loraCmulti.get()[1]);
+          toSend[strlen(toSend)-1]=0;
+          LoRa_sendMessage(toSend);
+          counter = 0;
+          meanResult = 0;
+        }
         LED_BLAU_OFF;
     }
 
