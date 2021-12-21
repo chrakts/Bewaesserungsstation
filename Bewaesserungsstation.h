@@ -31,7 +31,7 @@
 #include "Cmulti2Buffer.h"
 #include "capaMeasure.h"
 #include "adcMessung.h"
-
+#include "twi_master_driver.h"
 
 void setup();
 void processLoraInfo();

@@ -56,6 +56,7 @@
 			<Add directory="/home/christof/Daten/Software/repositories/Secrets" />
 			<Add directory="/home/christof/Daten/Software/repositories/capaMeasure" />
 			<Add directory="/home/christof/Daten/Software/repositories/timer" />
+			<Add directory="/home/christof/Daten/Software/repositories/twiMaster" />
 		</Compiler>
 		<Linker>
 			<Add option="-mmcu=atxmega32a4u" />
@@ -95,6 +96,8 @@
 		<Unit filename="../spi/spi_driver.h" />
 		<Unit filename="../timer/timer.cpp" />
 		<Unit filename="../timer/timer.h" />
+		<Unit filename="../twiMaster/twi_master_driver.cpp" />
+		<Unit filename="../twiMaster/twi_master_driver.h" />
 		<Unit filename="../xmegaClocks/xmegaClocks.cpp" />
 		<Unit filename="../xmegaClocks/xmegaClocks.h" />
 		<Unit filename="Bewaesserungsstation.cpp" />

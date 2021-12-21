@@ -9,6 +9,7 @@
 #include "LoRa.h"
 #include "Cmulti2Buffer.h"
 #include "ComReceiver.h"
+#include "twi_master_driver.h"
 #include "Bewaesserungsstation.h"
 
 extern const char *Node;
@@ -45,6 +46,11 @@ extern bool STOPRelais;
 extern bool NEXTTempMeasure;
 extern bool NEXTTempSend;
 extern bool validTemperature;
+
+extern TWI_MasterDriver_t twiE_Master;
+extern TWI_MasterDriver_t twiC_Master;
+
+
 #endif // EXTERNAL_H_INCLUDED
 
 

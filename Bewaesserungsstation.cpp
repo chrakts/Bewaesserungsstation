@@ -1,6 +1,9 @@
 #include "Bewaesserungsstation.h"
 #include "BewaesserungsstationCommands.h"
 
+#define adrHumidity   10
+#define lenHumidity    2
+
 class LoRaClass;
 
 uint16_t counter = 0;
@@ -13,7 +16,7 @@ void setup()
 	PORTB_DIRSET = 0x00;; // nichts angeschlossen
 	PORTC_DIRSET = 0b00001011; // 4x LED, dann 4x Ausgang
 	PORTD_DIRSET = 0b10111000; // nur RS232 an Pin6/7
-	PORTE_DIRSET = 0x00; // nichts angeschlossen
+	PORTE_DIRSET = 0xff; // nichts angeschlossen
 
 	PORTA_OUTSET = 0xf0;
 
@@ -28,9 +31,12 @@ void setup()
 	PORTA_OUT = 0xFF;
 	init_mytimer();
 
+  TWI_MasterInit(&twiE_Master, &TWIE, TWI_MASTER_INTLVL_LO_gc, TWI_BAUDSETTING);
+
 	PMIC_CTRL = PMIC_LOLVLEX_bm | PMIC_HILVLEN_bm | PMIC_MEDLVLEN_bm;
 	sei();
 	debug.open(Serial::BAUD_57600,F_CPU);
+
 
   debug.sendInfo("Bewaesserung sagt Hallo","BR");
 
@@ -71,8 +77,18 @@ int main()
     if( NEXTCapaMeasure==true )
     {
       LED_GRUEN_ON;
+      uint8_t data[2] = {adrHumidity,67};
+      bool test;
+      test = TWI_MasterWriteRead(&twiE_Master,0x55,data,1,lenHumidity);
+      while(!TWI_MasterReady(&twiE_Master))
+          ;
+      if(test==true)
+        debug.sendPureAnswer("AA",'A','A','A',test);
+      else
+        debug.broadcastUInt8(twiE_Master.result,'B','B','B');
+      debug.broadcastUInt16(twiE_Master.readData[0]+twiE_Master.readData[1]*256,'T','1','j');
       NEXTCapaMeasure = false;
-      result = capa.makeMeasure();
+      //result = capa.makeMeasure();
       LED_GRUEN_OFF;
       meanResult += result;
       counter++;
