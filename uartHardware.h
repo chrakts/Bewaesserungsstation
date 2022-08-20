@@ -15,7 +15,7 @@
 #define USE_RS485_FEEDBACK_0
 #define USE_BUSY_0 true
 
-#define UART_PORT_0 C
+#define UART_PORT_0 E
 #define UART_NUM_0  0
 #define TE_PIN_0    0
 #define RE_PIN_0    1

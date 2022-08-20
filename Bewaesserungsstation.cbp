@@ -17,7 +17,7 @@
 					<Add option="-O" />
 					<Add option="-Wall" />
 					<Add option="-std=c++11" />
-					<Add option="-mmcu=atxmega32a4u" />
+					<Add option="-mmcu=atxmega128a4u" />
 					<Add option="-c -fpermissive" />
 					<Add option="-Wno-enum-compare" />
 					<Add option="-MD -MP -MF" />
@@ -28,6 +28,7 @@
 					<Add option="-funsigned-bitfields" />
 					<Add option="-DNDEBUG" />
 					<Add option="-DSENDER_BUILT" />
+					<Add option="-DCLOCK_CALIBRATION=0x73" />
 					<Add directory="/home/christof/Downloads/avr8-gnu-toolchain-linux_x86_64/avr/lib/avrxmega2" />
 					<Add directory="/home/christof/Downloads/avr8-gnu-toolchain-linux_x86_64/avr/include" />
 					<Add directory="/home/christof/Daten/Software/repositories/Bewaesserungsstation" />
@@ -45,12 +46,12 @@
 				</Linker>
 			</Target>
 			<Environment>
-				<Variable name="MCU" value="atxmega32a4u" />
+				<Variable name="MCU" value="atxmega128a4u" />
 			</Environment>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option="-mmcu=atxmega32a4u" />
+			<Add option="-mmcu=atxmega128a4u" />
 			<Add option="-DF_CPU=32000000UL" />
 			<Add directory="/home/christof/repositories/communication" />
 			<Add directory="/home/christof/Daten/Software/repositories/Secrets" />
@@ -59,7 +60,7 @@
 			<Add directory="/home/christof/Daten/Software/repositories/twiMaster" />
 		</Compiler>
 		<Linker>
-			<Add option="-mmcu=atxmega32a4u" />
+			<Add option="-mmcu=atxmega128a4u" />
 			<Add option="-Wl,-Map=$(TARGET_OUTPUT_DIR)$(TARGET_OUTPUT_BASENAME).map,--cref" />
 		</Linker>
 		<ExtraCommands>

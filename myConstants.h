@@ -7,8 +7,6 @@
 
 #define PLL 0
 
-#define CLOCK_CALIBRATION 0x83
-
 #define LORACMULTIBUFFERR_LENGTH 25
 
 #define LED_ROT_ON		PORTA_OUTCLR = PIN4_bm

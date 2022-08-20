@@ -32,6 +32,7 @@
 #include "capaMeasure.h"
 #include "adcMessung.h"
 #include "twi_master_driver.h"
+#include "../BodenfeuchteSensor/BodenfeuchteSensorDefines.h"
 
 void setup();
 void processLoraInfo();
