@@ -41,7 +41,7 @@ extern char LoraCmultiBuffer[];
 extern Cmulti2Buffer loraCmulti;
 
 extern bool NEXTCapaMeasure;
-extern bool NEXTCapaSend;
+extern volatile bool NEXTCapaSend;
 extern bool STOPRelais;
 extern bool NEXTTempMeasure;
 extern bool NEXTTempSend;

@@ -25,7 +25,7 @@ char rxMessage[LORAMESSAGELENGTH];
 uint8_t key[16] = {AES256_KEY};
 
 bool NEXTCapaMeasure = true;
-bool NEXTCapaSend = false;
+volatile bool NEXTCapaSend = false;
 bool STOPRelais = false;
 bool NEXTTempMeasure = true;
 bool NEXTTempSend = false;
