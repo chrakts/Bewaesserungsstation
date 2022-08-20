@@ -43,5 +43,6 @@ void LoRa_txMode();
 void LoRa_rxMode();
 void evaluate(void);
 void gotInfoFromLora();
+int16_t readFromSensor(uint8_t slave, uint8_t address, uint8_t length);
 
 #endif // HX711ADAPTER_H_INCLUDED

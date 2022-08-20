@@ -5,9 +5,6 @@
 
 class LoRaClass;
 
-uint16_t counter = 0;
-uint16_t tempCounter = 0;
-
 void setup()
 {
 	init_clock(SYSCLK,PLL,true,CLOCK_CALIBRATION);
@@ -44,70 +41,46 @@ void setup()
 
 int main()
 {
-  bool test;
-  float meanResult=0;
-  counter = 0;
-  float meanTempResult=0;
-  tempCounter = 0;
-  uint8_t data;
+  int16_t result;
   setup();
+
   // ID auslesen
-  data = adrId;
-  test = TWI_MasterWriteRead(&twiC_Master,SLAVE_ADDRESS,&data,1,lenId);
-  while(!TWI_MasterReady(&twiC_Master))
-      ;
-  if(test==true)
-  {
-    debug.sendStandardInt("BR",'I',SLAVE_ADDRESS,'i',twiC_Master.readData[0]);
-  }
+  result = readFromSensor(SLAVE_ADDRESS, adrId, lenId);
+  if(result!= 0x7fff)
+    debug.sendStandardInt("BR",'I',SLAVE_ADDRESS,'i',result);
 
   while(1)
   {
-    if( NEXTCapaMeasure==true )
-    {
-      // Feuchte auslesen
-      data = adrHumidity;
-      test = TWI_MasterWriteRead(&twiC_Master,SLAVE_ADDRESS,&data,1,lenHumidity);
-      while(!TWI_MasterReady(&twiC_Master))
-          ;
-      if(test==true)
-      {
-        meanResult += (float)(twiC_Master.readData[0]+twiC_Master.readData[1]*256);
-        counter++;
-      }
-
-      // Temperatur auslesen
-      data = adrTemperature;
-      test = TWI_MasterWriteRead(&twiC_Master,SLAVE_ADDRESS,&data,1,lenTemperature);
-      while(!TWI_MasterReady(&twiC_Master))
-          ;
-      if(test==true)
-      {
-        meanTempResult += (float)(twiC_Master.readData[0]+twiC_Master.readData[1]*256);
-        tempCounter++;
-      }
-
-      NEXTCapaMeasure = false;
-    }
     if( NEXTCapaSend==true )
     {
       NEXTCapaSend = false;
-        LED_BLAU_ON;
-        if( counter>0 )
-        {
-          debug.sendStandardDouble("BR",'H',SLAVE_ADDRESS,'i',(double)meanResult/counter);
-          counter = 0;
-          meanResult = 0;
-        }
-        if( tempCounter>0 )
-        {
-          debug.sendStandardDouble("BR",'T',SLAVE_ADDRESS,'i',(double)(meanTempResult/tempCounter)/100.0);
-          tempCounter = 0;
-          meanTempResult = 0;
-        }
-        LED_BLAU_OFF;
+      result = readFromSensor(SLAVE_ADDRESS, adrHumidity, lenHumidity);
+      if (result!= 0x7fff)
+        debug.sendStandardInt("BR",'H',SLAVE_ADDRESS,'i',result);
+      result = readFromSensor(SLAVE_ADDRESS, adrTemperature, lenTemperature);
+      if (result!= 0x7fff)
+        debug.sendStandardDouble("BR",'T',SLAVE_ADDRESS,'i',((double)result)/100.0);
     }
 
   }
 }
 
+int16_t readFromSensor(uint8_t slave, uint8_t address, uint8_t length)
+{
+  uint8_t data;
+  bool test;
+  int16_t result=0;
+  data = address;
+  test = TWI_MasterWriteRead(&twiC_Master,slave,&data,1,length);
+  while(!TWI_MasterReady(&twiC_Master))
+    ;
+  if(test==true)
+  {
+    if (length>1)
+      result = ((int16_t)twiC_Master.readData[1])<<8;
+    result |= twiC_Master.readData[0];
+    return(result);
+  }
+  else
+    return(0x7fff);
+}
