@@ -8,7 +8,7 @@
 //101: 1000 ms
 
 volatile TIMER MyTimers[MYTIMER_NUM]= {	{TM_START,RESTART_YES,60,0,nextCapaMeasure},
-                                        {TM_START,RESTART_YES,400,0,nextCapaSend},
+                                        {TM_START,RESTART_YES,100,0,nextCapaSend},
                                         {TM_STOP,RESTART_NO,5000,0,stopRelais},
                                         {TM_START,RESTART_NO,5000,0,startupTimer},
                                         {TM_START,RESTART_YES,200,0,nextTempMeasure},
