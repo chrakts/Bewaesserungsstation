@@ -36,3 +36,5 @@ Cmulti2Buffer loraCmulti(LoraCmultiBuffer,LORACMULTIBUFFERR_LENGTH,Node);
 
 TWI_MasterDriver_t twiE_Master;    /*!< TWI master module. */
 TWI_MasterDriver_t twiC_Master;    /*!< TWI master module. */
+
+uint8_t slaves[NUM_SLAVES];

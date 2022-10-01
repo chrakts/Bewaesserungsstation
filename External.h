@@ -50,7 +50,7 @@ extern bool validTemperature;
 extern TWI_MasterDriver_t twiE_Master;
 extern TWI_MasterDriver_t twiC_Master;
 
-
+extern uint8_t slaves[];
 #endif // EXTERNAL_H_INCLUDED
 
 

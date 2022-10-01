@@ -42,7 +42,23 @@ void setup()
 int main()
 {
   int16_t result;
+  uint8_t i,k;
   setup();
+
+  k=0;
+  for(i=0;i<NUM_SLAVES;i++)
+  {
+    result = readFromSensor(FIRST_SLAVE_ADDRESS+i, adrId, lenId);
+    if(result!= 0x7fff)
+    {
+      debug.sendAnswer("found","BR",'I',SLAVE_ADDRESS+i,'i',true);
+      slaves[k] = SLAVE_ADDRESS+i;
+      k++;
+    }
+    else
+      debug.sendAnswer("not found","BR",'I',SLAVE_ADDRESS+i,'i',false);
+
+  }
 
   // ID auslesen
   result = readFromSensor(SLAVE_ADDRESS, adrId, lenId);
@@ -74,7 +90,7 @@ int16_t readFromSensor(uint8_t slave, uint8_t address, uint8_t length)
   test = TWI_MasterWriteRead(&twiC_Master,slave,&data,1,length);
   while(!TWI_MasterReady(&twiC_Master))
     ;
-  if(test==true)
+  if(twiC_Master.result==TWIM_RESULT_OK)
   {
     if (length>1)
       result = ((int16_t)twiC_Master.readData[1])<<8;
